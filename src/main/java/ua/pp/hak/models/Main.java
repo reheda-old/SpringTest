@@ -1,4 +1,4 @@
-package ua.pp.hak;
+package ua.pp.hak.models;
 
 public class Main {
 

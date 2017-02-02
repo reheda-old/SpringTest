@@ -1,4 +1,4 @@
-package ua.pp.hak;
+package ua.pp.hak.models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +15,7 @@ public class DAO {
 		Class.forName("com.mysql.jdbc.Driver");
 
 		// create the connection now
-		return DriverManager.getConnection("jdbc:mysql://localhost:3306/spring_test", "root", "123456");
+		return DriverManager.getConnection("jdbc:mysql://localhost:3306/spring_test?useSSL=false", "root", "123456");
 	}
 
 	public static List<Post> getPosts() {
@@ -60,6 +60,19 @@ public class DAO {
 				PreparedStatement ps = con.prepareStatement("INSERT INTO posts (txt) VALUES (?);");) {
 
 			ps.setString(1, txt);
+			ps.executeUpdate();
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void editPost(int id, String txt){
+		try (Connection con = getConnection();
+				PreparedStatement ps = con.prepareStatement("UPDATE posts SET txt=? WHERE id=?;");) {
+
+			ps.setString(1, txt);
+			ps.setInt(2, id);
 			ps.executeUpdate();
 
 		} catch (ClassNotFoundException | SQLException e) {
